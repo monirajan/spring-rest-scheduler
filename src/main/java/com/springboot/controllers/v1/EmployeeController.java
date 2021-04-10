@@ -52,4 +52,5 @@ public class EmployeeController {
         ScheduleDTO scheduleDTO = new ScheduleDTO();
         employeeService.cancelScheduleByEmployeeId(mailId, scheduleDTO);
     }
+
 }

@@ -42,6 +42,7 @@ public class EmployeeServiceImpl implements EmployeeService{
     public EmployeeDTO createEmployeeSchedule(EmployeeDTO employeeDTO) {
         Employee employee = employeeMapper.employeeDTOToemployee(employeeDTO);
         Employee savedEmployee = employeeRepository.save(employee);
+        scheduleRepository.save(savedEmployee.getSchedules());
         return employeeMapper.employeeToemployeeDTO(savedEmployee);
     }
 
@@ -50,13 +51,14 @@ public class EmployeeServiceImpl implements EmployeeService{
         Employee employee = employeeRepository.findByMailId(id);
         Schedule schedule = employee.getSchedules();
         return scheduleMapper.scheduleToscheduleDTO(schedule);
-
     }
 
     @Override
     public EmployeeDTO modifyScheduleByEmployeeId(String id, ScheduleDTO scheduleDTO){
         Employee employee = employeeRepository.findByMailId(id);
-        Schedule schedule = employee.getSchedules();
+        Schedule empSchedule = employee.getSchedules();
+        Schedule schedule = scheduleRepository.findById(empSchedule.getId()).get();
+
         if(scheduleDTO.getFrequency()!=null)
             schedule.setFrequency(scheduleDTO.getFrequency());
         try {
@@ -78,6 +80,7 @@ public class EmployeeServiceImpl implements EmployeeService{
         if(scheduleDTO.getRepeat()!=null)
             schedule.setRepeat(scheduleDTO.getRepeat());
 
+        scheduleRepository.save(schedule);
         employee.setSchedules(schedule);
         Employee savedEmp = employeeRepository.save(employee);
         return employeeMapper.employeeToemployeeDTO(savedEmp);
@@ -87,14 +90,11 @@ public class EmployeeServiceImpl implements EmployeeService{
     public void cancelScheduleByEmployeeId(String id, ScheduleDTO scheduleDTO) {
 
         Employee employee = employeeRepository.findByMailId(id);
-        Schedule schedule = null;
-        employee.setSchedules(schedule);
+        Schedule schedule = employee.getSchedules();
+        scheduleRepository.deleteById(schedule.getId());
+
+        employee.setSchedules(null);
         employeeRepository.save(employee);
-
     }
 
-    @Override
-    public List<ScheduleDTO> listScheduleByDate(String date) {
-        return null;
-    }
 }
