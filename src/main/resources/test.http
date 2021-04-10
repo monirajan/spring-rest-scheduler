@@ -1,0 +1,40 @@
+POST http://localhost:8080/api/v1/employees/abc@gmail.com/
+Content-Type: application/json
+
+{
+  "startDate": "1995-11-27T18:30:00.000+0000",
+  "endDate": "1995-11-27T18:30:00.000+0000",
+  "time": "15:00",
+  "duration": 30,
+  "repeat": true,
+  "frequency": "Weekdays",
+  "employee": null
+}
+
+###
+POST http://localhost:8080/api/v1/employees/
+Content-Type: application/json
+
+{
+  "id": 3,
+  "mailId": "zxcv@gmail.com",
+  "patientId": "3",
+  "schedules": {
+    "id": 3,
+    "startDate": "1995-11-27T18:30:00.000+0000",
+    "endDate": "1995-11-27T18:30:00.000+0000",
+    "time": "14:00",
+    "duration": 30,
+    "repeat": true,
+    "frequency": "Monthly",
+    "employee": null
+}
+}
+
+###
+GET http://localhost:8080/api/v1/employees/
+Accept: application/json
+
+###
+GET http://localhost:8080/api/v1/employees/abc@gmail.com/
+

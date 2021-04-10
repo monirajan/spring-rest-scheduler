@@ -1,21 +1,26 @@
 package com.springboot.domain;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import java.util.Set;
+import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
 @Entity
 public class Employee {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String mailId;
     private String patientId;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "schedule")
-    private Set<Schedule> schedules;
+    @OneToOne(cascade = CascadeType.ALL)
+    @NotFound(action = NotFoundAction.IGNORE)
+    private Schedule schedules;
 }
