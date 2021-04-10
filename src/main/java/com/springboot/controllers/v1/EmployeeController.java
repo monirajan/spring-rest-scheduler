@@ -44,4 +44,12 @@ public class EmployeeController {
     {
         return employeeService.modifyScheduleByEmployeeId(mailId,scheduleDTO);
     }
+
+    @DeleteMapping("/api/v1/employees/{mailId}/")
+    @ResponseStatus(HttpStatus.OK)
+    public void cancelEmpSchedule(@PathVariable String mailId)
+    {
+        ScheduleDTO scheduleDTO = new ScheduleDTO();
+        employeeService.cancelScheduleByEmployeeId(mailId, scheduleDTO);
+    }
 }

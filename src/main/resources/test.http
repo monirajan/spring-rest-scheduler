@@ -1,3 +1,17 @@
+DELETE http://localhost:8080/api/v1/employees/abc@gmail.com/
+Accept: application/json
+
+{
+"startDate": "1995-11-27T18:30:00.000+0000",
+  "endDate": "1995-11-27T18:30:00.000+0000",
+  "time": "15:00",
+  "duration": 30,
+  "repeat": true,
+  "frequency": "Weekdays",
+  "employee": null
+}
+
+###
 POST http://localhost:8080/api/v1/employees/abc@gmail.com/
 Content-Type: application/json
 

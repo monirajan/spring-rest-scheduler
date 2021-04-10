@@ -7,8 +7,8 @@ import com.springboot.api.v1.model.ScheduleDTO;
 import com.springboot.domain.Employee;
 import com.springboot.domain.Schedule;
 import com.springboot.repositories.EmployeeRepository;
+import com.springboot.repositories.ScheduleRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,11 +19,13 @@ import java.util.stream.Collectors;
 public class EmployeeServiceImpl implements EmployeeService{
 
     private final EmployeeRepository employeeRepository;
+    private final ScheduleRepository scheduleRepository;
     private final EmployeeMapper employeeMapper;
     private final ScheduleMapper scheduleMapper;
 
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper, ScheduleMapper scheduleMapper) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, ScheduleRepository scheduleRepository, EmployeeMapper employeeMapper, ScheduleMapper scheduleMapper) {
         this.employeeRepository = employeeRepository;
+        this.scheduleRepository = scheduleRepository;
         this.employeeMapper = employeeMapper;
         this.scheduleMapper = scheduleMapper;
     }
@@ -83,6 +85,11 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Override
     public void cancelScheduleByEmployeeId(String id, ScheduleDTO scheduleDTO) {
+
+        Employee employee = employeeRepository.findByMailId(id);
+        Schedule schedule = null;
+        employee.setSchedules(schedule);
+        employeeRepository.save(employee);
 
     }
 
