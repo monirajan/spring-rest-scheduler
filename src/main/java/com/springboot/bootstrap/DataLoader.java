@@ -50,11 +50,11 @@ public class DataLoader implements CommandLineRunner {
         Schedule schedule1 = new Schedule();
         schedule1.setId(2l);
         schedule1.setStartDate(new SimpleDateFormat("dd/MM/yyyy").parse("18/11/1995"));
-        schedule1.setEndDate(new SimpleDateFormat("dd/MM/yyyy").parse("18/11/1995"));
+        schedule1.setEndDate(new SimpleDateFormat("dd/MM/yyyy").parse("25/11/1996"));
         schedule1.setTime("12:00");
         schedule1.setDuration(30);
         schedule1.setRepeat(true);
-        schedule1.setFrequency(Frequency.Weekly);
+        schedule1.setFrequency(Frequency.Daily);
         Schedule savedSchedule1 = scheduleRepository.save(schedule1);
 
         employee1.setSchedules(savedSchedule1);

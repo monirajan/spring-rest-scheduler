@@ -1,3 +1,11 @@
+GET http://localhost:8080/api/v1/schedules/17 Nov 1995/
+Accept: application/json
+
+###
+GET http://localhost:8080/api/v1/schedules
+Accept: application/json
+
+###
 DELETE http://localhost:8080/api/v1/employees/abc@gmail.com/
 Accept: application/json
 
