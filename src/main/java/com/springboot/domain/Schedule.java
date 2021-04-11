@@ -1,5 +1,6 @@
 package com.springboot.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,7 +25,9 @@ public class Schedule {
     @Enumerated(value = EnumType.STRING)
     private Frequency frequency;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name="employee_id")
+    @JsonIgnoreProperties("schedules")
     private Employee employee;
 
 }

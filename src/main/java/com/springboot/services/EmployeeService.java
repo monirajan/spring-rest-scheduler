@@ -8,7 +8,7 @@ public interface EmployeeService {
 
     List<EmployeeDTO> getAllEmployees();
     EmployeeDTO createEmployeeSchedule(EmployeeDTO employeeDTO);
-    ScheduleDTO listScheduleByEmployeeId(String id);
+    List<ScheduleDTO> listScheduleByEmployeeId(String id);
     EmployeeDTO modifyScheduleByEmployeeId(String id, ScheduleDTO scheduleDTO);
     void cancelScheduleByEmployeeId(String id, ScheduleDTO scheduleDTO);
 

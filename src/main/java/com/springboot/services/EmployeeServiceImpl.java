@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,22 +43,26 @@ public class EmployeeServiceImpl implements EmployeeService{
     public EmployeeDTO createEmployeeSchedule(EmployeeDTO employeeDTO) {
         Employee employee = employeeMapper.employeeDTOToemployee(employeeDTO);
         Employee savedEmployee = employeeRepository.save(employee);
-        scheduleRepository.save(savedEmployee.getSchedules());
+        Set<Schedule> scheduleSet = savedEmployee.getSchedules();
+        scheduleSet.forEach(schedule -> scheduleRepository.save(schedule));
         return employeeMapper.employeeToemployeeDTO(savedEmployee);
     }
 
     @Override
-    public ScheduleDTO listScheduleByEmployeeId(String id) {
+    public List<ScheduleDTO> listScheduleByEmployeeId(String id) {
         Employee employee = employeeRepository.findByMailId(id);
-        Schedule schedule = employee.getSchedules();
-        return scheduleMapper.scheduleToscheduleDTO(schedule);
+        Set<Schedule> scheduleSet = employee.getSchedules();
+        return scheduleSet.stream()
+                .map(scheduleMapper::scheduleToscheduleDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
     public EmployeeDTO modifyScheduleByEmployeeId(String id, ScheduleDTO scheduleDTO){
-        Employee employee = employeeRepository.findByMailId(id);
-        Schedule empSchedule = employee.getSchedules();
-        Schedule schedule = scheduleRepository.findById(empSchedule.getId()).get();
+
+        Schedule scheduleToModify = scheduleMapper.scheduleDTOToschedule(scheduleDTO);
+
+        Schedule schedule = scheduleRepository.findById(scheduleToModify.getId()).get();
 
         if(scheduleDTO.getFrequency()!=null)
             schedule.setFrequency(scheduleDTO.getFrequency());
@@ -80,8 +85,15 @@ public class EmployeeServiceImpl implements EmployeeService{
         if(scheduleDTO.getRepeat()!=null)
             schedule.setRepeat(scheduleDTO.getRepeat());
 
-        scheduleRepository.save(schedule);
-        employee.setSchedules(schedule);
+        Schedule savedSchedule = scheduleRepository.save(schedule);
+
+        Employee employee = employeeRepository.findByMailId(id);
+        Set<Schedule> empSchedule = employee.getSchedules();
+        empSchedule.forEach(schedule1 -> {
+            if(schedule1.getId() == savedSchedule.getId())
+                schedule1 = savedSchedule;
+        });
+        employee.setSchedules(empSchedule);
         Employee savedEmp = employeeRepository.save(employee);
         return employeeMapper.employeeToemployeeDTO(savedEmp);
     }
@@ -89,11 +101,16 @@ public class EmployeeServiceImpl implements EmployeeService{
     @Override
     public void cancelScheduleByEmployeeId(String id, ScheduleDTO scheduleDTO) {
 
-        Employee employee = employeeRepository.findByMailId(id);
-        Schedule schedule = employee.getSchedules();
-        scheduleRepository.deleteById(schedule.getId());
+        Schedule scheduleToCancel = scheduleMapper.scheduleDTOToschedule(scheduleDTO);
 
-        employee.setSchedules(null);
+        Employee employee = employeeRepository.findByMailId(id);
+        Set<Schedule> scheduleSet = employee.getSchedules();
+        scheduleSet.forEach(schedule -> {
+            if(schedule.getId() == scheduleToCancel.getId())
+                scheduleSet.remove(schedule);
+        });
+        scheduleRepository.deleteById(scheduleToCancel.getId());
+        employee.setSchedules(scheduleSet);
         employeeRepository.save(employee);
     }
 

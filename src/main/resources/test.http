@@ -38,11 +38,11 @@ POST http://localhost:8080/api/v1/employees/
 Content-Type: application/json
 
 {
-  "id": 3,
+  "id": 5,
   "mailId": "zxcv@gmail.com",
-  "patientId": "3",
-  "schedules": {
-    "id": 3,
+  "patientId": "5",
+  "schedules": [{
+    "id": 5,
     "startDate": "1995-11-27T18:30:00.000+0000",
     "endDate": "1995-11-27T18:30:00.000+0000",
     "time": "14:00",
@@ -50,13 +50,13 @@ Content-Type: application/json
     "repeat": true,
     "frequency": "Monthly",
     "employee": null
+}]
 }
-}
+
+###
+GET http://localhost:8080/api/v1/employees/abc@gmail.com/
 
 ###
 GET http://localhost:8080/api/v1/employees/
 Accept: application/json
-
-###
-GET http://localhost:8080/api/v1/employees/abc@gmail.com/
 
