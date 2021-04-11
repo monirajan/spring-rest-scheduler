@@ -38,19 +38,29 @@ POST http://localhost:8080/api/v1/employees/
 Content-Type: application/json
 
 {
-  "id": 5,
-  "mailId": "zxcv@gmail.com",
-  "patientId": "5",
-  "schedules": [{
-    "id": 5,
-    "startDate": "1995-11-27T18:30:00.000+0000",
-    "endDate": "1995-11-27T18:30:00.000+0000",
-    "time": "14:00",
-    "duration": 30,
-    "repeat": true,
-    "frequency": "Monthly",
-    "employee": null
-}]
+  "id": 10,
+  "mailId": "hello@mail.com",
+  "patientId": "1",
+  "schedules": [
+    {
+      "id": 10,
+      "startDate": "1995-11-16T18:30:00.000+0000",
+      "endDate": "1995-11-16T18:30:00.000+0000",
+      "time": "10:00",
+      "duration": 60,
+      "repeat": false,
+      "frequency": null
+    },
+    {
+      "id": 20,
+      "startDate": "2021-04-10T18:30:00.000+0000",
+      "endDate": "2021-06-29T18:30:00.000+0000",
+      "time": "10:00",
+      "duration": 60,
+      "repeat": true,
+      "frequency": "Monthly"
+    }
+  ]
 }
 
 ###

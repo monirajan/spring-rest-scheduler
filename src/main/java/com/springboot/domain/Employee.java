@@ -24,7 +24,7 @@ public class Employee {
     private String mailId;
     private String patientId;
 
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "employee", cascade = { CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE })
     @NotFound(action = NotFoundAction.IGNORE)
     @JsonIgnoreProperties("employee")
     private Set<Schedule> schedules = new HashSet<>();

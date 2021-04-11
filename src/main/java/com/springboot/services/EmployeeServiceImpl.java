@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -42,10 +43,21 @@ public class EmployeeServiceImpl implements EmployeeService{
     @Override
     public EmployeeDTO createEmployeeSchedule(EmployeeDTO employeeDTO) {
         Employee employee = employeeMapper.employeeDTOToemployee(employeeDTO);
-        Employee savedEmployee = employeeRepository.save(employee);
-        Set<Schedule> scheduleSet = savedEmployee.getSchedules();
-        scheduleSet.forEach(schedule -> scheduleRepository.save(schedule));
-        return employeeMapper.employeeToemployeeDTO(savedEmployee);
+        Set<Schedule> scheduleSet = employee.getSchedules();
+        Iterator iterator = scheduleSet.iterator();
+        while (iterator.hasNext()) {
+            Schedule schedule = (Schedule) iterator.next();
+            employee.addSchedule(schedule);
+        }
+        employee = employeeRepository.save(employee);
+        scheduleSet = employee.getSchedules();
+        iterator = scheduleSet.iterator();
+        while (iterator.hasNext()) {
+            Schedule schedule = (Schedule) iterator.next();
+            scheduleRepository.save(schedule);
+        }
+
+        return employeeMapper.employeeToemployeeDTO(employee);
     }
 
     @Override

@@ -1,8 +1,11 @@
 package com.springboot.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -10,6 +13,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
+@EqualsAndHashCode(exclude = {"employee"})
 public class Schedule {
 
     @Id
@@ -25,9 +29,10 @@ public class Schedule {
     @Enumerated(value = EnumType.STRING)
     private Frequency frequency;
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="employee_id")
     @JsonIgnoreProperties("schedules")
+    @NotFound(action = NotFoundAction.IGNORE)
     private Employee employee;
 
 }
