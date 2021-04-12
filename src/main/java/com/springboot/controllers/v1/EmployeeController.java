@@ -51,9 +51,8 @@ public class EmployeeController {
 
     @DeleteMapping("/api/v1/employees/{mailId}/")
     @ResponseStatus(HttpStatus.OK)
-    public void cancelEmpSchedule(@PathVariable String mailId)
+    public void cancelEmpSchedule(@PathVariable String mailId,@RequestBody ScheduleDTO scheduleDTO)
     {
-        ScheduleDTO scheduleDTO = new ScheduleDTO();
         employeeService.cancelScheduleByEmployeeId(mailId, scheduleDTO);
     }
 

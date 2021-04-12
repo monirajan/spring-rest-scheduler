@@ -15,5 +15,7 @@ public interface ScheduleMapper {
     @Mapping(source = "endDate", dateFormat = "dd MMM yyyy", target = "endDate")
     ScheduleDTO scheduleToscheduleDTO(Schedule schedule);
 
+    @Mapping(source = "startDate", dateFormat = "dd MMM yyyy", target = "startDate")
+    @Mapping(source = "endDate", dateFormat = "dd MMM yyyy", target = "endDate")
     Schedule scheduleDTOToschedule(ScheduleDTO scheduleDTO);
 }
